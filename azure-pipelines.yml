@@ -61,15 +61,22 @@ steps:
    workingDir: 'coit-frontend'
    customCommand: 'audit --registry=https://registry.npmjs.org/'
 
-- task: Docker@2
-  inputs:
-    command: 'buildAndPush'
-    tags: '$(Build.BuildId)'
-    containerRegistry: Docker-Hub
-    repository: megha22/frontend-project
+#- task: Docker@2
+#  inputs:
+#    command: 'buildAndPush'
+#    tags: '$(Build.BuildId)'
+#    containerRegistry: Docker-Hub
+#    repository: 'megha22/frontend-project'
 
 #- task: trivy@1
 #  inputs:
 #    version: 'latest'
 #    image: 'megha22/frontend-project'
 
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'frontend-project'
+    repository: 'megha22/frontend-project'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
