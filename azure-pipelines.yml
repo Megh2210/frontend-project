@@ -88,4 +88,14 @@ steps:
     connectionType: 'kubernetesServiceConnection'
     kubernetesServiceConnection: 'azuredevops-k8'
     namespace: 'default'
-    manifests: 'k8s/kustomize/simple/kustomization.yaml'
+    manifests: 'k8s/simple/frontend-deployment.yaml'
+
+
+- task: Kubernetes@1
+  inputs:
+    connectionType: 'Kubernetes Service Connection'
+    kubernetesServiceEndpoint: 'azuredevops-k8'
+    command: 'expose'
+    useConfigurationFile: true
+    configuration: 'k8s/simple/service-frontend-lb.yaml'
+
