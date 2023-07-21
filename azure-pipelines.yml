@@ -87,5 +87,5 @@ steps:
     action: 'deploy'
     connectionType: 'kubernetesServiceConnection'
     kubernetesServiceConnection: 'azuredevops-k8'
-    namespace: 'SIT'
+    namespace: 'default'
     manifests: 'k8s/simple/frontend-deployment.yaml'
