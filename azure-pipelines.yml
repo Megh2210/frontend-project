@@ -1,0 +1,75 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+
+#- task: SonarQubePrepare@5
+#  inputs:
+#    SonarQube: 'SonarQube_DotNet'
+#    scannerMode: 'MSBuild'
+#    projectKey: 'SimpleWebApp_SimpleWebApp'
+
+    
+#- task: SonarQubePrepare@5
+#  inputs:
+#    SonarQube: 'SonarQube_DotNet'
+#    scannerMode: 'MSBuild'
+#    projectKey: 'SimpleWebApp_SimpleWebApp'
+#    extraProperties: |
+#      # Additional properties that will be passed to the scanner, 
+#      # Put one key=value per line, example:
+#      # sonar.exclusions=**/*.bin
+#      $params = "$env:SONARQUBE_SCANNER_PARAMS.PSObject.Properties('sonar.branch.name')"
+#      Write-Host "##vso[task.setvariable variable=SONARQUBE_SCANNER_PARAMS]$params"
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+    npm run build
+  displayName: 'npm install and build'
+
+#- task: SonarQubeAnalyze@5
+#  inputs:
+#    jdkversion: 'JAVA_HOME_11_X64'
+
+
+#- task: SonarQubePublish@5
+#  inputs:
+#    pollingTimeoutSec: '150'
+
+
+- script: |
+    npm audit || true
+  displayName: 'npm security audit'  
+
+#- task: Npm@1
+ # displayName: 'npm audit'
+  #inputs:
+   # command: custom
+   # workingDir: 'coit-frontend'
+   # customCommand: 'audit --registry=https://registry.npmjs.org/'
+
+- task: Docker@2
+  inputs:
+    command: 'buildAndPush'
+    tags: '$(Build.BuildId)'
+    containerRegistry: Docker-Hub
+    repository: megha22/frontend-project
+
+- task: trivy@1
+  inputs:
+    version: 'latest'
+    image: 'megha22/frontend-project'
+
