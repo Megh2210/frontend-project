@@ -77,7 +77,15 @@ steps:
 #    Dockerfile: 'Dockerfile'
 
 
-- task: trivy@1
+#- task: trivy@1
+#  inputs:
+#    version: 'latest'
+#    image: 'megha22/frontend-project'
+
+- task: KubernetesManifest@1
   inputs:
-    version: 'latest'
-    image: 'megha22/frontend-project'
+    action: 'deploy'
+    connectionType: 'kubernetesServiceConnection'
+    kubernetesServiceConnection: 'azuredevops-k8'
+    namespace: 'SIT'
+    manifests: '''k8s/simple/frontend-deployment.yaml'
