@@ -50,9 +50,9 @@ steps:
 #    pollingTimeoutSec: '150'
 
 
-- script: |
-    npm audit || true
-  displayName: 'npm security audit'  
+#- script: |
+#    npm audit || true
+#  displayName: 'npm security audit'  
 
 #- task: Npm@1
  # displayName: 'npm audit'
@@ -61,15 +61,15 @@ steps:
    # workingDir: 'coit-frontend'
    # customCommand: 'audit --registry=https://registry.npmjs.org/'
 
-- task: Docker@2
-  inputs:
-    command: 'buildAndPush'
-    tags: '$(Build.BuildId)'
-    containerRegistry: Docker-Hub
-    repository: megha22/frontend-project
+#- task: Docker@2
+#  inputs:
+#    command: 'buildAndPush'
+#    tags: '$(Build.BuildId)'
+#    containerRegistry: Docker-Hub
+#    repository: megha22/frontend-project
 
-- task: trivy@1
-  inputs:
-    version: 'latest'
-    image: 'megha22/frontend-project'
+#- task: trivy@1
+#  inputs:
+#    version: 'latest'
+#    image: 'megha22/frontend-project'
 
